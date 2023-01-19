@@ -1,0 +1,10 @@
+{
+  "animals": [ "MYSZ", "ZEBRA", "DZIK", "BYK" ],
+  "animals_hints": ["Tom i Jerry", "Koń w paski", "Ma bardzo ostre kły i jest zły", "Rodeo"],
+  "food": [ "FRYTKI", "SPAGHETTI", "PIZZA", "GULASZ" ],
+  "food_hints": ["Ziemniaki z oleju", "Długi makaron", "Dawniej placek dla biedoty", "np. węgierski lub ukraiński"],
+  "informatics": [ "KOMPUTER", "PROGRAMOWANIE", "INTERNET", "KLAWIATURA" ],
+  "informatics_hints": ["Maszyna licząca", "Klepanie kodu", "Nie można go zgrać na płytę", "Ma kosmiczny bar"],
+  "sport_en":["FOOTBALL","BASKETBALL","BILLARD","GOLF"],
+  "sport_en_hints":["American or what rest of the world would think", "Bugs Bunny played this","Sticks and tables", "Metal sticks and a lot of traps"]
+}

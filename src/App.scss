@@ -1,0 +1,59 @@
+$enable-shadows: true;
+$prefix: "mo-";
+@import "../node_modules/bootstrap/scss/bootstrap";
+$buttonColor: rgb(82, 82, 167);
+$colorText: #FFFFFF;
+$colorTextHover: aquamarine;
+
+
+@mixin btn{
+    border: none;
+    background-color: $buttonColor;
+    color: $colorText;
+    &:hover{
+        background-color: darken($buttonColor, 1);
+        color: $colorTextHover;
+    }       
+}
+    
+
+@mixin btn_min{
+    height: (200px / 5);
+    line-height: 20px;
+}
+    
+
+.btn_undo{
+    @include btn;
+    padding: (5px + 5);
+}
+
+
+.btn_hint{
+    @include btn;
+    @include btn_min;
+    font-size: (25px - 5);
+}
+
+.btn_letter{
+    @include btn;
+    padding: (5px * 2);
+}
+
+$i: 15;
+@while $i > 0 {
+  .size-#{$i} { font-size: 15px + $i; }
+  $i: $i - 5;
+}
+
+.input {
+    border: 1px solid #ccc;
+    padding: 5px;
+    color: #000;
+  }
+  
+  .green {
+    @extend .input;
+    border-color: green;
+  }
+  
