@@ -1,3 +1,26 @@
 {
-    "players":["Janek"]
+    "players": [
+        {
+            "id": 1,
+            "name": "Player_1",
+            "category": "Zwierzęta",
+            "moves": "6",
+            "points": "87,5"
+
+        },
+        {
+            "id": 2,
+            "name": "Player_1",
+            "category": "Jedzenie",
+            "moves": "9",
+            "points": "60"
+        },
+        {
+            "id": 3,
+            "name": "Player_2",
+            "category": "Informatyka",
+            "moves": "10",
+            "points": "20"
+        }
+    ]
 }

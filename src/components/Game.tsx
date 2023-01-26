@@ -2,6 +2,7 @@
 import { Formik, Field, Form } from "formik";
 import { useState, useEffect, useMemo, useReducer } from 'react';
 import '../App.css';
+
 const Game = () => {
     const location = useLocation();
     const state = location.state;
@@ -21,6 +22,7 @@ const Game = () => {
     const [hint, setHint] = useState('');
     const [isUsedHelpLetter, setIsUsedHelpLetter] = useState(false);
     const calculatePoints = useMemo(() => playerPoints(currentLives),[currentLives]);
+    const [stateReducer, dispatch] = useReducer(reducer, { moves: 0 });
 
     //Equivalent for componentDidMount
     //https://stackoverflow.com/questions/53945763/componentdidmount-equivalent-on-a-react-function-hooks-component
@@ -31,21 +33,14 @@ const Game = () => {
     function playerPoints(currentLives:any){
       return   (currentLives / defaultLives) * 100 ;
     }
-
-    function timeLeft(state:any, action:any){
-            let newState;
-            switch (action.type) {
-              case 'increase':
-                newState = { counter: state.counter + 1 };
-                break;
-              case 'descrease':
-                newState = { counter: state.counter - 1 };
-                break;
-              default:
-                throw new Error();
-            }
-            return newState;
-    }
+    function reducer(state:any, action:any ) {
+        if (action.type === 'incremented_move') {
+          return {
+            moves: state.moves + 1
+          };
+        }
+        throw Error('Unknown action.');
+      }
 
     function getRandomInRange(min: number, max: number) {
         return Math.floor(Math.random() * (max - min)) + min;
@@ -57,20 +52,18 @@ const Game = () => {
         } 
     }
 
-   /* async function savePlayerScore(){
+    async function savePlayerScore(){
         let player = state[1];
         let playerScore = currentLives;
         let timeStamp = new Date();
         let data = await getPlayerScore();
         data["players"].push(player);
-        await writeJsonFile('statistics.json', JSON.stringify(data));
-        console.log(player, playerScore, timeStamp,data);
     }
 
    async function getPlayerScore(){
     const response = await fetch("statistics.json");
         return response.json();
-    }*/
+    }
 
     function loadWords() {
         fetch("words.json")
@@ -167,7 +160,8 @@ const Game = () => {
                 FillUncoveredPart(wordToGuess[i], getAllOccurences(wordToGuess, wordToGuess[i]));
                 setIsUsedHelpLetter(true);  
             }
-            increaseCount(); 
+            increaseCount();
+            savePlayerScore();
         }
     }
 
@@ -250,8 +244,10 @@ const Game = () => {
                     }}>
                     <Form>
                         <label htmlFor="letter">Letter</label>
-                        <Field id="givenLetter" name="letter" placeholder="Letter" className="green" disabled={isDisabledInput}/>
-                        <button type="submit" className="btn btn-success" disabled={isDisabledSubmit}>Submit</button>
+                        <Field id="givenLetter" name="letter" placeholder="Letter" maxLength={1} className="green" disabled={isDisabledInput}/>
+                        <button type="submit" className="btn btn-success" onClick={() => {
+                        dispatch({ type: 'incremented_move' })
+                        }} disabled={isDisabledSubmit}>Submit</button>
                     </Form>
                 </Formik>
                 <p>
@@ -274,6 +270,10 @@ const Game = () => {
                     Attempts so far:
                     {"\n"}
                     {count}
+                    {"\n"}
+                    Moves:
+                    {"\n"}
+                    {stateReducer.moves}
                 </p>
                 <p>
                     <img src={actualImage} alt="hangman"></img>
@@ -305,8 +305,10 @@ const Game = () => {
                     }}>
                     <Form>
                         <label htmlFor="letter">Litera</label>
-                        <Field id="givenLetter" name="letter" placeholder="Litera" className="green" disabled={isDisabledInput}/>
-                        <button type="submit" className="btn btn-success" disabled={isDisabledSubmit}>Submit</button>
+                        <Field id="givenLetter" name="letter" placeholder="Litera" className="green" maxLength={1} disabled={isDisabledInput}/>
+                        <button type="submit" className="btn btn-success" onClick={() => {
+                        dispatch({ type: 'incremented_move' })
+                        }} disabled={isDisabledSubmit}>Submit</button>
                     </Form>
                 </Formik>
                 <p>
@@ -329,6 +331,10 @@ const Game = () => {
                     Dotychczasowe próby:
                     {"\n"}
                     {count}
+                    {"\n"}
+                    Ilość ruchów:
+                    {"\n"}
+                    {stateReducer.moves}
                 </p>
                 <p>
                     <img src={actualImage} alt="hangman"></img>
