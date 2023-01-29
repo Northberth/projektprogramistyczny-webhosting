@@ -1,4 +1,4 @@
-﻿import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { Formik, Field, Form } from "formik";
 import { useState, useEffect, useMemo, useReducer } from 'react';
 import '../App.css';
@@ -7,7 +7,6 @@ const Game = () => {
     const location = useLocation();
     const state = location.state;
     const category = state[0].name;
-    const user = state[1];
     const [wordToGuess, setWordToGuess] = useState('');
     const [defaultLives,] = useState(8);
     const [currentLives, setCurrentLives] = useState(8);
@@ -21,7 +20,7 @@ const Game = () => {
     const [isUsedHint, setIsUsedHint] = useState(false);
     const [hint, setHint] = useState('');
     const [isUsedHelpLetter, setIsUsedHelpLetter] = useState(false);
-    const calculatePoints = useMemo(() => playerPoints(currentLives),[currentLives]);
+     const calculatePoints = useMemo(() => playerPoints(currentLives),[currentLives]);
     const [stateReducer, dispatch] = useReducer(reducer, { moves: 0 });
 
     //Equivalent for componentDidMount
@@ -58,6 +57,7 @@ const Game = () => {
         let timeStamp = new Date();
         let data = await getPlayerScore();
         data["players"].push(player);
+        console.log(playerScore,timeStamp);
     }
 
    async function getPlayerScore(){
@@ -78,6 +78,7 @@ const Game = () => {
                 createCoveredWord(randomWord);
             })
     }
+    
 
     function createCoveredWord(word: string) {
         let coveredWord = [];
@@ -146,15 +147,13 @@ const Game = () => {
     function helpLetter(){
         if(!isUsedHelpLetter){
             let i = 0;
-            let letter = '';
             console.log(previousGuesses.length);
             if(previousGuesses.length === 0){
                 FillUncoveredPart(wordToGuess[i], getAllOccurences(wordToGuess, wordToGuess[i]));
                 setIsUsedHelpLetter(true);
                 console.log(wordToGuess);
             }else{
-                while(previousGuesses.includes(wordToGuess[i])){
-                    letter = wordToGuess[i]; 
+                while(previousGuesses.includes(wordToGuess[i])){ 
                     i++;
                 }
                 FillUncoveredPart(wordToGuess[i], getAllOccurences(wordToGuess, wordToGuess[i]));
@@ -202,7 +201,10 @@ const Game = () => {
                     "Przegrałeś"
                 )
             }
-        } 
+        }
+        setIsUsedUndo(true);
+        setIsUsedHint(true);
+        setIsUsedHelpLetter(true); 
     }
 
     function show(arrayToMap: any, connector: any) {
